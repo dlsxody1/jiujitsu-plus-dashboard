@@ -68,7 +68,6 @@ jiujitsu-plus-dashboard/
 │   │       └── globals.css            # 전역 스타일
 │   │
 │   ├── pages/                  # 🔥 [Layer 2] Pages 계층 (Routes)
-│   │   ├── __root.tsx                 # 루트 레이아웃
 │   │   ├── index.tsx                  # 홈페이지 (/)
 │   │   ├── login.tsx                  # 로그인 (/login)
 │   │   ├── dashboard/
