@@ -13,4 +13,4 @@ if (!supabaseAnonKey) {
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-export type { Database } from './database.types'
+export type { Database } from '../lib/auth/database.types'
