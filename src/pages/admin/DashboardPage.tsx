@@ -1,14 +1,22 @@
-import React from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/shared/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/shared/ui/card'
 import { Button } from '@/shared/ui/button'
 import { Users, Calendar, Trophy, Settings, LogOut } from 'lucide-react'
 import { signOut } from '@/entities/users/api/auth-api'
 import { useMutation } from '@tanstack/react-query'
-import { useRouter } from '@tanstack/react-router'
+import { useRouter, Link } from '@tanstack/react-router'
+import { TotalMembersCard } from '@/entities/users/ui/TotalMembersCard'
+import { ActiveMembersCard } from '@/entities/users/ui/ActiveMembersCard'
+import { MonthlyAttendanceCard } from '@/entities/attendance/ui/MonthlyAttendanceCard'
 
 const DashboardPage = () => {
   const router = useRouter()
-  
+
   const logoutMutation = useMutation({
     mutationFn: signOut,
     onSuccess: () => {
@@ -20,32 +28,14 @@ const DashboardPage = () => {
     logoutMutation.mutate()
   }
 
-  const stats = [
-    {
-      title: '총 회원수',
-      value: '124',
-      description: '이번 달 +12명',
-      icon: Users,
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-    },
-    {
-      title: '이번 달 출석',
-      value: '89%',
-      description: '지난 달보다 +5%',
-      icon: Calendar,
-      color: 'text-green-600',
-      bgColor: 'bg-green-50',
-    },
-    {
-      title: '활성 회원',
-      value: '98',
-      description: '최근 30일 기준',
-      icon: Trophy,
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-    },
-  ]
+  // Mock data - 실제로는 API에서 받아올 데이터
+  const statsData = {
+    totalMembers: 124,
+    monthlyIncrease: 12,
+    attendanceRate: 89,
+    previousMonthDifference: 5,
+    activeMembers: 98,
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -81,39 +71,26 @@ const DashboardPage = () => {
               환영합니다! 👋
             </h2>
             <p className="text-gray-600">
-              오늘도 체육관 관리를 위해 수고하고 계시네요. 현재 상황을 확인해보세요.
+              오늘도 체육관 관리를 위해 수고하고 계시네요. 현재 상황을
+              확인해보세요.
             </p>
           </div>
 
-          {/* Stats Grid */}
+          {/* Stats Grid - 가로 한 줄 배치 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {stats.map((stat, index) => {
-              const IconComponent = stat.icon
-              return (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-600">
-                      {stat.title}
-                    </CardTitle>
-                    <div className={`p-2 rounded-lg ${stat.bgColor}`}>
-                      <IconComponent className={`h-5 w-5 ${stat.color}`} />
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold text-gray-900 mb-1">
-                      {stat.value}
-                    </div>
-                    <p className="text-xs text-gray-500">
-                      {stat.description}
-                    </p>
-                  </CardContent>
-                </Card>
-              )
-            })}
+            <TotalMembersCard
+              totalMembers={statsData.totalMembers}
+              monthlyIncrease={statsData.monthlyIncrease}
+            />
+            <MonthlyAttendanceCard
+              attendanceRate={statsData.attendanceRate}
+              previousMonthDifference={statsData.previousMonthDifference}
+            />
+            <ActiveMembersCard activeMembers={statsData.activeMembers} />
           </div>
 
-          {/* Quick Actions */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Quick Actions - 가로 한 줄 배치 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -125,11 +102,13 @@ const DashboardPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  <Button className="w-full justify-start" variant="outline">
-                    <Users className="h-4 w-4 mr-2" />
-                    전체 회원 보기
-                  </Button>
+                <div className="space-y-2">
+                  <Link to="/admin/users">
+                    <Button className="w-full justify-start" variant="outline">
+                      <Users className="h-4 w-4 mr-2" />
+                      전체 회원 보기
+                    </Button>
+                  </Link>
                   <Button className="w-full justify-start" variant="outline">
                     <Calendar className="h-4 w-4 mr-2" />
                     출석 현황 보기
@@ -150,10 +129,12 @@ const DashboardPage = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  <Button className="w-full justify-start" variant="outline">
-                    <Settings className="h-4 w-4 mr-2" />
-                    시스템 설정
-                  </Button>
+                  <Link to="/admin/settings">
+                    <Button className="w-full justify-start" variant="outline">
+                      <Settings className="h-4 w-4 mr-2" />
+                      시스템 설정
+                    </Button>
+                  </Link>
                   <Button className="w-full justify-start" variant="outline">
                     <Trophy className="h-4 w-4 mr-2" />
                     통계 보고서
