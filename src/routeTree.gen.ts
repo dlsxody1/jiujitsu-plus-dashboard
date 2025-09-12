@@ -15,7 +15,8 @@ import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AuthCallbackRouteImport } from './routes/auth.callback'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminSettingsRouteImport } from './routes/admin/settings'
-import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
+import { Route as AdminDashboardIndexRouteImport } from './routes/admin/dashboard/index'
+import { Route as AdminDashboardUsersRouteImport } from './routes/admin/dashboard/users'
 
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
@@ -47,78 +48,90 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/admin/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminDashboardRoute = AdminDashboardRouteImport.update({
-  id: '/admin/dashboard',
-  path: '/admin/dashboard',
+const AdminDashboardIndexRoute = AdminDashboardIndexRouteImport.update({
+  id: '/admin/dashboard/',
+  path: '/admin/dashboard/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardUsersRoute = AdminDashboardUsersRouteImport.update({
+  id: '/admin/dashboard/users',
+  path: '/admin/dashboard/users',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/dashboard/users': typeof AdminDashboardUsersRoute
+  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/dashboard/users': typeof AdminDashboardUsersRoute
+  '/admin/dashboard': typeof AdminDashboardIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
-  '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/dashboard/users': typeof AdminDashboardUsersRoute
+  '/admin/dashboard/': typeof AdminDashboardIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
-    | '/admin/dashboard'
     | '/admin/settings'
     | '/admin/users'
     | '/auth/callback'
     | '/admin'
+    | '/admin/dashboard/users'
+    | '/admin/dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/dashboard'
-    | '/admin/dashboard'
     | '/admin/settings'
     | '/admin/users'
     | '/auth/callback'
     | '/admin'
+    | '/admin/dashboard/users'
+    | '/admin/dashboard'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
-    | '/admin/dashboard'
     | '/admin/settings'
     | '/admin/users'
     | '/auth/callback'
     | '/admin/'
+    | '/admin/dashboard/users'
+    | '/admin/dashboard/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
-  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AuthCallbackRoute: typeof AuthCallbackRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AdminDashboardUsersRoute: typeof AdminDashboardUsersRoute
+  AdminDashboardIndexRoute: typeof AdminDashboardIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -165,11 +178,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/dashboard': {
-      id: '/admin/dashboard'
+    '/admin/dashboard/': {
+      id: '/admin/dashboard/'
       path: '/admin/dashboard'
       fullPath: '/admin/dashboard'
-      preLoaderRoute: typeof AdminDashboardRouteImport
+      preLoaderRoute: typeof AdminDashboardIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard/users': {
+      id: '/admin/dashboard/users'
+      path: '/admin/dashboard/users'
+      fullPath: '/admin/dashboard/users'
+      preLoaderRoute: typeof AdminDashboardUsersRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -178,11 +198,12 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
-  AdminDashboardRoute: AdminDashboardRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AuthCallbackRoute: AuthCallbackRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AdminDashboardUsersRoute: AdminDashboardUsersRoute,
+  AdminDashboardIndexRoute: AdminDashboardIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

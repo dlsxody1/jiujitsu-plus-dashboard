@@ -6,7 +6,7 @@ import {
   CardTitle,
 } from '@/shared/ui/card'
 import { Button } from '@/shared/ui/button'
-import { Users, Calendar, Trophy, Settings, LogOut } from 'lucide-react'
+import { Users, Calendar, Trophy, Settings, LogOut, QrCode } from 'lucide-react'
 import { signOut } from '@/entities/users/api/auth-api'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter, Link } from '@tanstack/react-router'
@@ -98,25 +98,22 @@ const DashboardPage = () => {
                   회원 관리
                 </CardTitle>
                 <CardDescription>
-                  회원 정보를 조회하고 관리할 수 있습니다.
+                  회원 정보를 조회, 등록, 출석체크를 할 수 있습니다.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  <Link to="/admin/users">
-                    <Button className="w-full justify-start" variant="outline">
-                      <Users className="h-4 w-4 mr-2" />
-                      전체 회원 보기
-                    </Button>
-                  </Link>
+                <Link to="/admin/dashboard/users">
                   <Button className="w-full justify-start" variant="outline">
                     <Calendar className="h-4 w-4 mr-2" />
-                    출석 현황 보기
+                    전체 회원 보기
                   </Button>
-                </div>
+                </Link>
+                <Button className="w-full justify-start mt-2" variant="outline">
+                  <QrCode className="h-4 w-4 mr-2" />
+                  출석체크 QR
+                </Button>
               </CardContent>
             </Card>
-
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -128,18 +125,16 @@ const DashboardPage = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
-                  <Link to="/admin/settings">
-                    <Button className="w-full justify-start" variant="outline">
-                      <Settings className="h-4 w-4 mr-2" />
-                      시스템 설정
-                    </Button>
-                  </Link>
+                <Link to="/admin/settings">
                   <Button className="w-full justify-start" variant="outline">
-                    <Trophy className="h-4 w-4 mr-2" />
-                    통계 보고서
+                    <Settings className="h-4 w-4 mr-2" />
+                    시스템 설정
                   </Button>
-                </div>
+                </Link>
+                <Button className="w-full justify-start mt-2" variant="outline">
+                  <Trophy className="h-4 w-4 mr-2" />
+                  통계 보고서
+                </Button>
               </CardContent>
             </Card>
           </div>
