@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { supabase } from '@/shared/api/supabase'
 import { Loader2 } from 'lucide-react'
@@ -12,25 +12,26 @@ function AuthCallback() {
     const handleAuthCallback = async () => {
       try {
         // URL에서 해시 파라미터 추출
-        const hashParams = new URLSearchParams(window.location.hash.substring(1))
-        
+        const hashParams = new URLSearchParams(
+          window.location.hash.substring(1),
+        )
+
         const accessToken = hashParams.get('access_token')
         const refreshToken = hashParams.get('refresh_token')
-        const expiresAt = hashParams.get('expires_at')
-        
+
         if (accessToken && refreshToken) {
           // Supabase 세션 설정
-          const { data, error } = await supabase.auth.setSession({
+          const { error } = await supabase.auth.setSession({
             access_token: accessToken,
             refresh_token: refreshToken,
           })
-          
+
           if (error) {
             console.error('Authentication error:', error)
             window.location.href = '/?error=auth_failed'
             return
           }
-          
+
           // 인증 성공 시 대시보드로 리다이렉트
           window.location.href = '/dashboard'
         } else {
@@ -42,7 +43,7 @@ function AuthCallback() {
         window.location.href = '/?error=callback_failed'
       }
     }
-    
+
     handleAuthCallback()
   }, [])
 

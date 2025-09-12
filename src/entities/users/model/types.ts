@@ -17,6 +17,11 @@ export interface SocialLoginParams {
   redirectTo?: string
 }
 
+export interface EmailLoginParams {
+  email: string
+  password: string
+}
+
 export interface AuthState {
   user: User | null
   session: Session | null

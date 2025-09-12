@@ -2,6 +2,7 @@ import { supabase } from '@/shared/api/supabase'
 import { AUTH_CONFIG } from '@/shared/lib/auth/config'
 import type {
   AuthSessionResponse,
+  EmailLoginParams,
   SocialLoginParams,
   SocialLoginResponse,
 } from '../model/types'
@@ -37,6 +38,15 @@ export const signInWithSocial = async ({
   }
 }
 
+export const signEmailLogin = async ({ email, password }: EmailLoginParams) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  })
+
+  if (error) throw error
+  return data
+}
 /**
  * 현재 사용자 세션 가져오기
  */

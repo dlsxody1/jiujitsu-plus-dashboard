@@ -35,15 +35,15 @@ function Dashboard() {
     getUser()
 
     // 인증 상태 변화 감지
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (event === 'SIGNED_OUT' || !session) {
-          window.location.href = '/'
-        } else if (session?.user) {
-          setUser(session.user)
-        }
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_OUT' || !session) {
+        window.location.href = '/'
+      } else {
+        setUser(session.user)
       }
-    )
+    })
 
     return () => subscription.unsubscribe()
   }, [])
@@ -99,14 +99,22 @@ function Dashboard() {
             <CardContent>
               {user && (
                 <div className="space-y-2">
-                  <p><strong>이메일:</strong> {user.email}</p>
-                  <p><strong>이름:</strong> {user.user_metadata?.full_name || '정보 없음'}</p>
-                  <p><strong>가입일:</strong> {new Date(user.created_at).toLocaleDateString()}</p>
-                  {user.user_metadata?.avatar_url && (
+                  <p>
+                    <strong>이메일:</strong> {user.email}
+                  </p>
+                  <p>
+                    <strong>이름:</strong>{' '}
+                    {user.user_metadata.full_name || '정보 없음'}
+                  </p>
+                  <p>
+                    <strong>가입일:</strong>{' '}
+                    {new Date(user.created_at).toLocaleDateString()}
+                  </p>
+                  {user.user_metadata.avatar_url && (
                     <div className="mt-4">
-                      <img 
-                        src={user.user_metadata.avatar_url} 
-                        alt="프로필" 
+                      <img
+                        src={user.user_metadata.avatar_url}
+                        alt="프로필"
                         className="w-16 h-16 rounded-full"
                       />
                     </div>
