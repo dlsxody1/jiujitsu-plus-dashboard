@@ -37,4 +37,23 @@ export interface SocialLoginMutation {
   isSuccess: boolean
 }
 
+export interface ExtendedUser extends User {
+  name?: string
+  phone?: string
+  birth_date?: string
+  join_date?: string
+  status?: MembershipStatus
+  current_belt?: BeltLevel
+  current_stripes?: number
+  role?: string
+  password_hash?: string
+  total_attendance_days?: number
+}
+
+export type BeltLevel = 'white' | 'blue' | 'purple' | 'brown' | 'black'
+
+export type MembershipStatus = 'active' | 'suspended' | 'inactive'
+
+export type AttendanceStatus = 'present' | 'absent' | 'late'
+
 export { type User, type Session } from '@supabase/supabase-js'

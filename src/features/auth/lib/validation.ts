@@ -2,7 +2,7 @@ import type {
   LoginCredentials,
   ValidationErrors,
   ValidationResult,
-} from '@/features/model/types'
+} from '@/features/auth/model/types'
 
 export const validateForm = ({
   email,

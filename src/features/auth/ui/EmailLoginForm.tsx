@@ -1,5 +1,8 @@
 import { signEmailLogin } from '@/entities/users/api/auth-api'
-import type { LoginCredentials, ValidationErrors } from '@/features/model/types'
+import type {
+  LoginCredentials,
+  ValidationErrors,
+} from '@/features/auth/model/types'
 import { Button } from '@/shared/ui/button'
 import {
   Card,
